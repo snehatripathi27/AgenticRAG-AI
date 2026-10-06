@@ -1,0 +1,8 @@
+name: First evaluation
+model:
+  backend: demo
+  name: demo-baseline
+tasks: [demo_reasoning, demo_math, demo_knowledge]
+seed: 42
+limit: 20
+batch_size: 4

@@ -1,0 +1,7 @@
+id: capitals
+title: World capitals
+category: Knowledge
+description: An example of a user-defined JSONL task.
+metric: exact_match
+prompt: 'Answer with only the city name: {question}'
+data_file: capitals.jsonl

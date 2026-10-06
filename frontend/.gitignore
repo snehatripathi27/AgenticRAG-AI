@@ -70,5 +70,4 @@ Thumbs.db
 tmp/
 temp/
 
-# Auto-generated files
-src/vite-env.d.ts
+# Vite environment types are tracked so clean checkouts type-check.

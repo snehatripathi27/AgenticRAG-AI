@@ -1,206 +1,160 @@
-# 🧠 Agentic RAG Chatbot - Complete Implementation
+# BenchLab
 
-## 🎯 Project Overview
+Repeatable language model evaluations, from your terminal to a local React workspace.
 
-**fully functional Agentic RAG system** that implements all the requested features:
+BenchLab includes a Python evaluation engine, CLI, FastAPI service, SQLite run history, and a React/TypeScript interface. Pick a model and tasks, save a configuration, then inspect scores and every generated answer. The bundled offline demo exercises the full workflow without downloading weights or using credentials.
 
-### ✅ **Feature 1: Streaming Speech-to-Text (STT)**
+## Install
 
-- **Implementation**: OpenAI Whisper model for high-accuracy transcription
-- **User Experience**: Click microphone button → speak for up to 10 seconds → automatic processing
-- **Technical**: Real-time audio capture via MediaRecorder API → Whisper processing → text query
-- **Files**: `backend/stt/streaming_stt.py`, `frontend/src/components/VoiceMic.tsx`
-
-### ✅ **Feature 2: MultiModal RAG with PDF Images & Graphs**
-
-- **Text Extraction**: PyMuPDF for clean text extraction from PDFs
-- **Image Processing**: Automatic page screenshots saved as high-quality PNGs
-- **OCR Integration**: Tesseract OCR extracts text from charts, graphs, and images
-- **Vector Storage**: ChromaDB stores text embeddings for semantic search
-- **Files**: `backend/rag/pdf_processor.py`, `backend/rag/chroma_store.py`
-
-### ✅ **Feature 3a: Agentic Query Processing (RAG + Web Search + MCP)**
-
-- **RAG Component**: Semantic search through uploaded PDF content
-- **Web Search Agent**: DuckDuckGo integration for recent/external information
-- **Google Drive MCP**: Model Context Protocol for searching user's Google Drive
-- **Smart Routing**: System intelligently decides which sources to query based on the question
-- **Files**: `backend/rag/query_engine.py`, `backend/agents/web_search_agent.py`, `backend/mcp/google_drive_client.py`
-
-### ✅ **Feature 3b: Citation & Grounding System**
-
-- **Smart Citations**: Responses include [1], [2], [3] style citations
-- **Source Tracking**: Each citation shows exactly where information came from
-- **Multi-Source Display**: Clear indication of PDF pages, Google Drive docs, web results
-- **Source Summary**: Count of documents consulted from each source type
-- **Files**: Frontend citation display in `ChatBox.tsx`
-
-### ✅ **Feature 3c: Click-to-View Images & Content**
-
-- **PDF Page Images**: Click citation images to view full-size page screenshots
-- **Image Modal**: Beautiful fullscreen overlay with smooth transitions
-- **External Links**: Clickable links to Google Drive documents and web sources
-- **Preview System**: Thumbnail images show relevant PDF pages in citations
-- **Files**: Image modal system in `frontend/src/components/ChatBox.tsx`
-
-## 🏗️ System Architecture
-
-```
-🌐 Frontend (React + TypeScript + Tailwind CSS)
-├── 💬 ChatBox.tsx      # Main chat interface with citations & modals
-├── 📄 UploadPDF.tsx    # PDF upload with progress feedback
-├── 🎙️ VoiceMic.tsx     # Voice recording and submission
-└── 🚀 App.tsx          # Main application with feature showcase
-
-🔧 Backend (FastAPI + Python)
-├── 🌍 main.py                    # REST API server with CORS support
-├── 📚 rag/
-│   ├── 📄 pdf_processor.py       # PDF text + image extraction + OCR
-│   ├── 🗃️ chroma_store.py        # Vector database operations
-│   ├── 🧠 query_engine.py        # Multi-source query orchestration
-│   └── 🔤 embedder.py            # Text embedding utilities
-├── 🎙️ stt/
-│   └── 🗣️ streaming_stt.py       # Whisper voice transcription
-├── 🤖 agents/
-│   └── 🌐 web_search_agent.py    # DuckDuckGo search integration
-└── ☁️ mcp/
-    └── 📁 google_drive_client.py # Google Drive Model Context Protocol
-```
-
-## 🔄 Complete Workflow Examples
-
-### 📄 **PDF Processing Workflow:**
-
-1. **Upload**: User uploads PDF with charts/graphs → `POST /upload-pdf/`
-2. **Extract**: PyMuPDF extracts text + renders page images → `images/page_X.png`
-3. **OCR**: Tesseract processes images for additional text extraction
-4. **Combine**: Text from PDF + OCR text from images merged by page
-5. **Vectorize**: Combined text chunked and embedded in ChromaDB
-6. **Ready**: System confirms processing complete with stats
-
-### 🎙️ **Voice Query Workflow:**
-
-1. **Record**: User clicks mic → MediaRecorder captures 10s audio
-2. **Upload**: Audio blob sent to → `POST /voice-query/`
-3. **Transcribe**: Whisper converts speech to text
-4. **Process**: Text query goes through full RAG pipeline
-5. **Respond**: Returns transcription + answer + citations + images
-
-### 🧠 **Agentic Query Workflow:**
-
-1. **Analyze**: System analyzes query for keywords ("latest", "current", etc.)
-2. **RAG Search**: ChromaDB semantic search on uploaded PDFs
-3. **Web Search**: DuckDuckGo search for recent/external information
-4. **Drive Search**: Google Drive MCP for user's cloud documents
-5. **Synthesize**: Gemini LLM combines all sources with proper citations
-6. **Format**: Response with clickable citations and preview images
-
-## 🛠️ Technical Implementation Details
-
-### **Backend Technologies:**
-
-- **FastAPI**: Modern async web framework with automatic OpenAPI docs
-- **LangChain**: RAG pipeline orchestration and LLM integration
-- **ChromaDB**: High-performance vector database for embeddings
-- **OpenAI Whisper**: State-of-the-art speech recognition
-- **PyMuPDF**: Fast PDF processing without external dependencies
-- **Tesseract OCR**: Optical character recognition for images
-- **Google Gemini**: Advanced LLM for response generation
-
-### **Frontend Technologies:**
-
-- **React 18**: Modern component-based UI framework
-- **TypeScript**: Type safety and better development experience
-- **Tailwind CSS**: Utility-first styling for rapid UI development
-- **Vite**: Fast build tool with HMR for development
-- **Axios**: HTTP client for API communication
-
-### **Key Features:**
-
-- **CORS Support**: Proper cross-origin resource sharing setup
-- **File Upload**: Multipart form handling for PDFs and audio
-- **Static File Serving**: Efficient image serving for citations
-- **Error Handling**: Comprehensive error handling throughout
-- **Progress Feedback**: Real-time upload and processing status
-- **Responsive Design**: Works on desktop and mobile devices
-
-## 📁 File Structure
-
-```
-📦 chatbot-query/
-├── 📄 requirements.txt          # Python dependencies
-├── 📄 QUICK_START.md           # Quick setup guide
-├── 📄 setup_instructions.md    # Detailed setup instructions
-├── 🔧 start.bat               # Windows startup script
-├── 🧪 test_system.py          # System validation script
-├── 🔧 backend/
-│   ├── 📄 .env                # Environment variables
-│   ├── 🌍 main.py             # FastAPI application
-│   ├── 📚 rag/                # RAG system components
-│   ├── 🎙️ stt/               # Speech-to-text system
-│   ├── 🤖 agents/             # Web search agents
-│   ├── ☁️ mcp/                # Google Drive integration
-│   ├── 📁 temp/               # Temporary file storage
-│   ├── 🖼️ images/             # PDF page images and screenshots
-│   └── 📁 uploads/            # Uploaded file storage
-└── 🌐 frontend/
-    ├── 📄 package.json        # Node.js dependencies
-    ├── ⚙️ vite.config.ts      # Vite configuration with proxy
-    ├── 🎨 tailwind.config.js  # Tailwind CSS configuration
-    └── 📁 src/
-        ├── 🚀 App.tsx         # Main application component
-        ├── 📁 components/     # React components
-        └── 🎨 assets/         # Static assets
-```
-
-## 🚀 Quick Start (Final Steps)
-
-### 1. **Set Google API Key** (Required)
+Requires **Python 3.10+**. The web interface also requires **Node 22.12+** and npm. Python 3.12 and Node 24 are used for development.
 
 ```bash
-# Edit backend/.env and set:
-GOOGLE_API_KEY=your_actual_google_api_key_from_makersuite
-```
-
-### 2. **Start the System**
-
-**Option A - Use Startup Script:**
-
-```bash
-# Double-click start.bat (Windows)
-```
-
-**Option B - Manual Start:**
-
-```bash
-# Terminal 1 - Backend
-cd backend
-python main.py
-
-# Terminal 2 - Frontend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e '.[dev]'
 cd frontend
-npm run dev
+npm ci
+cd ..
 ```
 
-### 3. **Access the Application**
+Only install inference dependencies when you need them:
 
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:8001
-- **API Docs**: http://localhost:8001/docs
+| Backend | Install | Requirements |
+| --- | --- | --- |
+| Offline demo | Base installation | Deterministic toy baseline, not a language model |
+| Hugging Face | `pip install -e '.[hf,benchmarks]'` | CPU or supported GPU; model weights and dataset access |
+| vLLM | `pip install -e '.[vllm,benchmarks]'` | A vLLM-supported accelerator and platform; use a separate environment when its Torch requirements differ |
+| Compatible HTTP API | `pip install -e '.[benchmarks]'` | Chat Completions endpoint and API key environment variable |
 
-## 🎯 Success Metrics
+## Run a complete demo
 
-Your system now successfully implements:
+```bash
+source .venv/bin/activate
+benchlab tasks
+benchlab validate examples/demo.yaml
+benchlab run --config examples/demo.yaml --output .benchlab/demo.json
+bash scripts/demo.sh
+```
 
-- ✅ **Advanced Voice Interface**: Click-to-record voice queries with Whisper STT
-- ✅ **MultiModal Document Processing**: PDFs with text, images, and charts
-- ✅ **Intelligent Information Retrieval**: RAG + Web Search + Google Drive
-- ✅ **Transparent Source Attribution**: Smart citations with click-to-view
-- ✅ **Modern User Experience**: Responsive design with real-time feedback
-- ✅ **Production-Ready Architecture**: Scalable FastAPI + React stack
+Open **http://localhost:5173**. The script starts the API at `127.0.0.1:8001`, then the frontend at `localhost:5173`. Ctrl+C stops both. It creates an initial demo run only when the database is empty. The workspace supports:
 
-## 🎉 You're Done!
+- Model/task selection with guided and JSON configuration editors
+- Config validation, saving, downloading, and reuse
+- Background runs with polling, status, and sample counts
+- Task scores, per-sample prompts/responses/references, and pagination
+- Run comparisons, searching, and JSON export of summaries or complete logs
+- A task catalog and built-in usage guide
 
-Your **Agentic RAG Chatbot** is complete and ready for use! The system provides enterprise-level functionality with a modern, intuitive interface. All requested features have been implemented with production-quality code and comprehensive documentation.
+The demo model performs arithmetic, recognizes a small set of facts, and uses seeded choices for reasoning. All demo data is synthetic. These scores must not be presented as results from a real language model.
 
-**Enjoy your new AI-powered document analysis and voice query system!** 🚀
+### CLI
+
+```bash
+benchlab tasks --json
+benchlab run --backend hf --model Qwen/Qwen2.5-0.5B-Instruct \
+  --tasks arc_easy boolq --limit 100 --seed 42
+benchlab run --config examples/huggingface.yaml --limit 10
+benchlab results
+benchlab results RUN_ID --format json
+benchlab results RUN_ID --format jsonl > predictions.jsonl
+benchlab --db ./experiment.db run --config examples/demo.yaml
+benchlab --task-dir examples/tasks tasks
+```
+
+Global flags (`--db`, `--task-dir`) precede the command. Command flags override matching config fields. Run IDs are printed on completion. Exit codes: `0` success, `1` an evaluation failed (logs retained), `2` invalid configuration or usage. Use `benchlab COMMAND --help` for all options.
+
+### Configuration
+
+```yaml
+name: Science baseline
+model:
+  backend: hf                 # demo | hf | vllm | api
+  name: Qwen/Qwen2.5-0.5B-Instruct
+  # revision: immutable-model-commit
+  device: auto
+  temperature: 0
+  max_tokens: 32
+tasks: [arc_easy, arc_challenge]
+seed: 42
+limit: 100                    # maximum samples per task
+batch_size: 4
+# dataset_revisions:
+#   arc_easy: immutable-dataset-commit
+# prompts:
+#   arc_easy: "{question}\n{choices}\nAnswer with one letter:"
+```
+
+`validate` checks structure, bounds, task and metric names, duplicate tasks, and prompt placeholders without downloading a model or dataset. It does not promise that a provider is reachable or that hardware is sufficient. YAML uses safe loading; unknown fields are rejected.
+
+For API models, use `examples/api.yaml`, change `model.name` and `base_url`, and set the environment variable named by `api_key_env` on the **server process**. Never put a secret value in configuration. The adapter sends `model`, `messages`, `temperature`, `max_tokens`, and `seed` to `/chat/completions`; select a provider/model supporting that contract. It retries transient connection errors, 429s, and 5xx responses up to three attempts.
+
+## Built-in benchmarks
+
+| Task | Dataset / split | Metric |
+| --- | --- | --- |
+| `arc_easy` | allenai/ai2_arc, ARC-Easy / test | Choice accuracy |
+| `arc_challenge` | allenai/ai2_arc, ARC-Challenge / test | Choice accuracy |
+| `hellaswag` | Rowan/hellaswag / validation | Choice accuracy |
+| `boolq` | google/boolq / validation | Normalized exact match (yes/no) |
+| `gsm8k` | openai/gsm8k, main / test | Final numeric answer match |
+| `demo_reasoning`, `demo_math`, `demo_knowledge` | Bundled synthetic samples | Choice / numeric / exact match |
+
+Standard datasets are downloaded on demand using the `benchmarks` extra. Dataset authors' access conditions and licenses apply. BenchLab uses **generated-answer evaluation**, not likelihood ranking or canonical leaderboard protocols. HellaSwag/ARC scores therefore are not directly comparable to likelihood-based benchmark reports. No user-supplied generated code is executed.
+
+## Extend without changing the engine
+
+Add a YAML file and JSONL samples to a task directory. See [`examples/tasks`](examples/tasks) and [`docs/evaluation.md`](docs/evaluation.md).
+
+```yaml
+id: capitals
+title: World capitals
+metric: exact_match
+prompt: 'Answer with only the city name: {question}'
+data_file: capitals.jsonl
+```
+
+```json
+{"id":"fr","question":"What is the capital of France?","reference":"Paris"}
+```
+
+Run or serve with `benchlab --task-dir examples/tasks ...`. Configs select the new task by ID. Prompt placeholders support `{question}`, `{context}`, and `{choices}` only; references are never given to inference backends. Built-in metrics include `exact_match`, `choice_accuracy`, `numeric_match`, and `token_f1`. Installed Python packages can register metric functions through the `benchlab.metrics` entry-point group.
+
+## API and storage
+
+```bash
+benchlab serve --host 127.0.0.1 --port 8001
+# Separate terminal:
+cd frontend && npm run dev -- --host 0.0.0.0 --port 5173 --strictPort
+```
+
+Interactive API reference: **http://localhost:8001/api/docs** (also available through the frontend proxy at `/api/docs`). See [`docs/api.md`](docs/api.md).
+
+Runs, validated configurations, sample logs, and reproducibility manifests are persisted to `.benchlab/runs.db` by default. API executions use a single background worker to prevent concurrent local model loads. Incomplete jobs are marked `interrupted` after restart; resume by reusing the configuration. Keep CLI runs and the server on separate database files if executing simultaneously or restarting the server during a CLI run. Run history lists the most recent 200 evaluations; older runs remain accessible by ID.
+
+This is a **trusted local developer tool**. There is no authentication, multi-user isolation, distributed scheduling, or durable queue. Bind the API to loopback; add authentication and access controls before exposing it to other users. Provider endpoints and installed metric plugins are trusted administrator configuration. Logs can contain input data and generated text; store/export them accordingly.
+
+## Development and verification
+
+```bash
+pytest -q
+ruff check src tests
+python -m build
+cd frontend
+npm run build
+npx eslint src/App.tsx
+```
+
+Tests cover repeatability, data adapters, scoring, prompt boundaries, invalid configs, partial failures, persistence, API lifecycle, and CLI exports. Adapter contract tests use synthetic responses; running actual accelerator/provider inference remains environment dependent. The API and UI demo require no external service.
+
+```text
+src/benchlab/     config, tasks, metrics, model adapters, runner, storage, API, CLI
+frontend/        React + TypeScript workspace
+examples/        reusable configurations and custom task examples
+tests/           deterministic unit and integration tests
+docs/            evaluation protocol, API, and historical RAG documentation
+scripts/         local demo startup
+```
+
+The repository's prior RAG backend and components are retained. Its historical setup lives in [`docs/legacy-rag.md`](docs/legacy-rag.md); root `requirements.txt` and the earlier RAG guides belong to that application and are **not** needed for BenchLab.
+
+See [verification results and environment limits](docs/verification.md) for the tested backends, browser flows, and outstanding development dependency advisories.

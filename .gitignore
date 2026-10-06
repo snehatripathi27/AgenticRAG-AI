@@ -83,3 +83,9 @@ models/
 # Test outputs
 test_document.pdf
 recording_*.wav
+
+# BenchLab local run state and packaging
+.benchlab/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/

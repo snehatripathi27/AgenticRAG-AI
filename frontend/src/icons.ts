@@ -1,0 +1,26 @@
+// Import only used icons; avoids traversing the full icon catalog during bundling.
+export { default as Activity } from "lucide-react/dist/esm/icons/activity.js";
+export { default as ArrowDownToLine } from "lucide-react/dist/esm/icons/arrow-down-to-line.js";
+export { default as ArrowRight } from "lucide-react/dist/esm/icons/arrow-right.js";
+export { default as ArrowUpRight } from "lucide-react/dist/esm/icons/arrow-up-right.js";
+export { default as BarChart3 } from "lucide-react/dist/esm/icons/chart-column.js";
+export { default as BookOpen } from "lucide-react/dist/esm/icons/book-open.js";
+export { default as Check } from "lucide-react/dist/esm/icons/check.js";
+export { default as CheckCircle2 } from "lucide-react/dist/esm/icons/circle-check.js";
+export { default as ChevronDown } from "lucide-react/dist/esm/icons/chevron-down.js";
+export { default as ChevronRight } from "lucide-react/dist/esm/icons/chevron-right.js";
+export { default as CircleHelp } from "lucide-react/dist/esm/icons/circle-question-mark.js";
+export { default as Clock3 } from "lucide-react/dist/esm/icons/clock-3.js";
+export { default as Code2 } from "lucide-react/dist/esm/icons/code-xml.js";
+export { default as Copy } from "lucide-react/dist/esm/icons/copy.js";
+export { default as Database } from "lucide-react/dist/esm/icons/database.js";
+export { default as FileCode2 } from "lucide-react/dist/esm/icons/file-code-2.js";
+export { default as FlaskConical } from "lucide-react/dist/esm/icons/flask-conical.js";
+export { default as Layers3 } from "lucide-react/dist/esm/icons/layers.js";
+export { default as Loader2 } from "lucide-react/dist/esm/icons/loader-circle.js";
+export { default as Play } from "lucide-react/dist/esm/icons/play.js";
+export { default as Plus } from "lucide-react/dist/esm/icons/plus.js";
+export { default as Search } from "lucide-react/dist/esm/icons/search.js";
+export { default as Terminal } from "lucide-react/dist/esm/icons/terminal.js";
+export { default as X } from "lucide-react/dist/esm/icons/x.js";
+export { default as Zap } from "lucide-react/dist/esm/icons/zap.js";

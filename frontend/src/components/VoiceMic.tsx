@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import axios from 'axios';
 import { Mic, MicOff, Loader2, Radio } from 'lucide-react';
 

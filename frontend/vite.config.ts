@@ -12,6 +12,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      '/api': 'http://127.0.0.1:8001',
       '/upload-pdf': 'http://localhost:8001',
       '/query': 'http://localhost:8001',
       '/voice-query': 'http://localhost:8001',
